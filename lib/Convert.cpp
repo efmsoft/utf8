@@ -29,14 +29,14 @@
 using namespace utf8;
 
 #ifdef _WIN32
-    size_t w32_strlen(const w32_type* p) { return xstrlen(p); }
-    w32_type* w32_strcpy(w32_type* dest, const w32_type* src) { return xstrcpy(dest, src); }
-    w32_type* w32_strncpy(w32_type* dest, const w32_type* src, size_t num) { return xstrncpy(dest, src, num); }
-    w32_type* w32_strncpyz(w32_type* dest, const w32_type* src, size_t num) { return xstrncpyz(dest, src, num); }
+  size_t w32_strlen(const w32_type* p) { return xstrlen(p); }
+  w32_type* w32_strcpy(w32_type* dest, const w32_type* src) { return xstrcpy(dest, src); }
+  w32_type* w32_strncpy(w32_type* dest, const w32_type* src, size_t num) { return xstrncpy(dest, src, num); }
+  w32_type* w32_strncpyz(w32_type* dest, const w32_type* src, size_t num) { return xstrncpyz(dest, src, num); }
 #else //#if defined(__APPLE__)
-    size_t w16_strlen(const w16_type* p) { return xstrlen(p); }
-    w16_type* w16_strcpy(w16_type* dest, const w16_type* src) { return xstrcpy(dest, src); }
-    w16_type* w16_strncpy(w16_type* dest, const w16_type* src, size_t num) { return xstrncpy(dest, src, num); }
+  size_t w16_strlen(const w16_type* p) { return xstrlen(p); }
+  w16_type* w16_strcpy(w16_type* dest, const w16_type* src) { return xstrcpy(dest, src); }
+  w16_type* w16_strncpy(w16_type* dest, const w16_type* src, size_t num) { return xstrncpy(dest, src, num); }
 #endif
 
 w16_type* w16_strncpyz(w16_type* dest, const w16_type* src, size_t num) { return xstrncpyz(dest, src, num); }
@@ -77,13 +77,13 @@ tstring posixEncodeString(
   iconv_close(h);
   return tstring((tchar*)buffer);
 }
-#endif // #if defined(__APPLE__)
+#endif // #ifndef _WIN32
 
 std::wstring utf8::Utf8ToWstring(const char* ptr)
 {
 #ifdef _WIN32
   return Utf8ToUtf16(ptr);
-#else //#if defined(__APPLE__)
+#else
   return Utf8ToUtf32(ptr);
 #endif
 }
@@ -97,7 +97,7 @@ std::string utf8::WstringToUtf8(const wchar_t* ptr)
 {
 #ifdef _WIN32
   return Utf16ToUtf8(ptr);
-#else //#if defined(__APPLE__)
+#else
   return Utf32ToUtf8(ptr);
 #endif
 }
@@ -106,7 +106,7 @@ w16string utf8::WstringToUtf16(const wchar_t* ptr)
 {
 #ifdef _WIN32
   return ptr;
-#else //#if defined(__APPLE__)
+#else
   std::string utf8 = Utf32ToUtf8(ptr);
   return Utf8ToUtf16(utf8.c_str());
 #endif
@@ -122,7 +122,7 @@ w16array utf8::WstringToUtf16(const wchar_t* ptr, size_t limit)
   w16array arr(limit);
 #ifdef _WIN32
   w16_strncpy(&arr[0], ptr, limit);
-#else //#if defined(__APPLE__)
+#else
   std::string utf8 = Utf32ToUtf8(ptr);
   auto str = Utf8ToUtf16(utf8.c_str());
   w16_strncpy(&arr[0], str.c_str(), limit);
@@ -140,7 +140,7 @@ w16array utf8::WstringToUtf16z(const wchar_t* ptr, size_t limit)
   w16array arr(limit);
 #ifdef _WIN32
   w16_strncpyz(&arr[0], ptr, limit);
-#else //#if defined(__APPLE__)
+#else
   std::string utf8 = Utf32ToUtf8(ptr);
   auto str = Utf8ToUtf16(utf8.c_str());
   w16_strncpyz(&arr[0], str.c_str(), limit);
@@ -453,10 +453,10 @@ std::string utf8::Utf32ToUtf8(const w32_type* source)
 
     switch (cb) 
     {
-    case 4: *p-- = (char)((ch | byteMark) & byteMask); ch >>= 6; [[fallthrough]];
-    case 3: *p-- = (char)((ch | byteMark) & byteMask); ch >>= 6; [[fallthrough]];
-    case 2: *p-- = (char)((ch | byteMark) & byteMask); ch >>= 6; [[fallthrough]];
-    case 1: *p = (char)(ch | FirstByteMark[cb]);
+      case 4: *p-- = (char)((ch | byteMark) & byteMask); ch >>= 6; [[fallthrough]];
+      case 3: *p-- = (char)((ch | byteMark) & byteMask); ch >>= 6; [[fallthrough]];
+      case 2: *p-- = (char)((ch | byteMark) & byteMask); ch >>= 6; [[fallthrough]];
+      case 1: *p = (char)(ch | FirstByteMark[cb]);
     }
 
     for (int i = 0; i < cb; ++i)

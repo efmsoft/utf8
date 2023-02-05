@@ -1,7 +1,5 @@
 #pragma once
 
-#include <array>
-
 #include <utf8/Char.h>
 #include <utf8/ConstStringPtr.h>
 #include <utf8/Convert.h>
@@ -35,9 +33,6 @@ namespace utf8
     String(const char* utf8, size_t n = -1);
     String(const std::string& utf8);
 
-    // Kind of constructor but with std::move to avoid copy
-    static String MoveFromString(std::string& utf8);
-
     // C string pointer / string reference
     const char* c_str() const;
     operator const char* () const;
@@ -67,24 +62,6 @@ namespace utf8
     std::string ToNativeString() const; // ANSI for Windows and UTF8 for Posix systems
     std::wstring ToWstring() const;
 
-    // Template Implementation need to be inside header ..
-    template<unsigned long N>
-    std::array<char, N> ToFixedCharArray() const
-    {
-      std::array<char, N> result;
-      result.fill('\0');
-      s8_strncpy(result.data(), Data.c_str(), N);
-      return result;
-    }
-
-    template<unsigned long N>
-    static String FromFixedCharArray(const std::array<char, N>& charArray)
-    {
-      String result;
-      result.Data = std::string(charArray.data());
-      return result;
-    }
-
     // --- Modify string
     void Clear();
 
@@ -100,9 +77,6 @@ namespace utf8
 
     bool ReplaceString(const String& find, const String& replace);
 
-    // Note : for now only works with non multy bytes string ...
-    void FilterNonPrintableChars();
-
     // Extract substring
     String Substr(size_t pos = 0, size_t count = std::string::npos) const;
 
@@ -110,12 +84,6 @@ namespace utf8
     StringArray Split(const CharSet& delimiters) const;
     StringArray Split(const char* delimiters) const;
     static String Join(const StringArray& arr, const Char& delimiter);
-
-    // From Other Kind of Data
-    bool IsInt();
-    static String DoubleToString(double i_double, int precision);
-    bool ToInt(long& o_result) const;
-    bool ToDouble(double& o_result) const;
 
     // Search
     bool StartsWith(const String& str) const;
@@ -275,16 +243,13 @@ namespace utf8
     static bool Valid(const std::string& str);
     static const char* Verify(const char* ptr);
 
-    // Alias
+    // Aliases
     bool empty() const { return Empty(); }
     size_t size() const { return Size(); }
     void clear() { Clear(); }
 
     template<typename T> size_t find(T t) { return IndexOf(t); }
     template<typename T> size_t rfind(T t) { return LastIndexOf(t); }
-
-    // NOTE: we do not defin alias for methods like substr and length because behavior of 
-    // these methods is different
 
   private:
     size_t PtrToPos(const char* p0) const;

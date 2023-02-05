@@ -60,17 +60,6 @@ std::string Char::Str() const
   return std::string(&arr[0], size());
 }
 
-bool Char::IsDigit() const 
-{
-  const std::vector<char>& arr = *this;
-  if (arr.size() == 1)
-  {
-    return arr[0] >= '0' && arr[0] <= '9';
-  }
-
-  return false;
-}
-
 void Char::AppendString(const std::string& str)
 {
   for (auto ch : str)

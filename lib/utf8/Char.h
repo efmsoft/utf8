@@ -16,7 +16,6 @@ namespace utf8
     Char(char32_t ch);          // UTF-32
 
     std::string Str() const;
-    bool IsDigit() const;
 
     bool operator==(const Char& ch) const;
     bool operator==(char ch) const;

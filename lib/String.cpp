@@ -97,14 +97,6 @@ String::String(const wxString& string)
 }
 #endif
 
-String String::MoveFromString(std::string& utf8)
-{
-  String newString;
-  newString.Data = std::move(utf8);
-  ASSERT_VALID_UTF8(newString.Data);
-  return newString;
-}
-
 const char* String::c_str() const
 {
   return Data.c_str();
@@ -456,18 +448,6 @@ bool String::ReplaceString(const String& find, const String& replace)
   return result;
 }
 
-void String::FilterNonPrintableChars() 
-{
-  for (unsigned int i = 0; i < Data.size(); i++)
-  {
-    if (!isprint(Data[i]))
-    {
-      Data.erase(Data.begin() + i);
-      i--;
-    }
-  }
-}
-
 String String::Substr(size_t pos, size_t count) const
 {
   size_t len = Length();
@@ -587,85 +567,6 @@ String String::Join(
     str += s;
   }
   return str;
-}
-
-bool String::IsInt()
-{
-  int i = 0;
-  size_t strLength = Length();
-
-  if (strLength == 0)
-    return false;
-
-  else if (strLength > 0 && CharAt(0) == '-')
-  {
-    i++;
-
-    if (strLength == 1)
-      return false;
-  }
-
-  for (; i < strLength; i++)
-  {
-    std::string currentCharUtf8 = CharAt(i).Str();
-
-    if (currentCharUtf8.size() == 1)
-    {
-      if (isdigit(currentCharUtf8[0]) == false)
-        return false;
-    }
-    else
-    {
-        return false;
-    }
-  }
-
-  return true;
-
-}
-
-String String::DoubleToString(
-    double i_double
-    , int precision
-) {
-  // Create an output string stream
-  std::ostringstream streamObj3;
-  // Set Fixed -Point Notation
-  streamObj3 << std::fixed;
-  // Set precision to X digits after dot
-  streamObj3 << std::setprecision((std::streamsize)precision);
-  //Add double to stream
-  streamObj3 << i_double;
-  // Get string from output string stream
-  return streamObj3.str();
-}
-
-bool String::ToInt(long & o_result) const
-{
-    char* endStr = nullptr;
-    o_result = std::strtol(Data.c_str(), &endStr, 10);
-    if (endStr != nullptr && endStr != Data.c_str() && *endStr == '\0' && o_result != HUGE_VAL)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-bool String::ToDouble(double & o_result) const
-{
-    char* endStr = nullptr;
-    o_result  = std::strtod(Data.c_str(), &endStr);
-    if (endStr != nullptr && endStr != Data.c_str() && *endStr == '\0' && o_result != HUGE_VAL)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
 }
 
 bool String::StartsWith(const String& str) const
@@ -882,30 +783,27 @@ size_t String::PtrToPos(const char* p0) const
 
 size_t String::PosToBitPos(const size_t& pos) const
 {
-    size_t index = 0;
-    size_t bytes = 0;
-    size_t size = Data.size();
+  size_t index = 0;
+  size_t bytes = 0;
+  size_t size = Data.size();
 
-    for (const char* p = Data.c_str(); *p;)
-    {
-        if (index >= pos)
-        {
-            break;
-        }
+  for (const char* p = Data.c_str(); *p;)
+  {
+    if (index >= pos)
+      break;
 
-        size_t n = CharSize(p);
-        if (!n)
-            return std::string::npos;
+    size_t n = CharSize(p);
+    if (!n)
+      return std::string::npos;
 
-        index++;
-        bytes += n;
-        p += n;
+    index++;
+    bytes += n;
+    p += n;
 
-        if (bytes > size)
-            return std::string::npos;
-    }
-
-    return bytes;
+    if (bytes > size)
+      return std::string::npos;
+  }
+  return bytes;
 }
 
 size_t String::IndexOf(const String& str, size_t Off) const
@@ -960,13 +858,13 @@ size_t String::IndexOf(const Char& ch, size_t Off) const
   return IndexOf(utf8, Off);
 }
 
-size_t  String::IndexOf(const char* ptr, size_t Off) const
+size_t String::IndexOf(const char* ptr, size_t Off) const
 {
   String utf8(ptr);
   return IndexOf(utf8, Off);
 }
 
-size_t  String::IndexOf(const std::string& str, size_t Off) const
+size_t String::IndexOf(const std::string& str, size_t Off) const
 {
   String utf8(str);
   return IndexOf(utf8, Off);
@@ -1452,65 +1350,65 @@ String String::operator+(const char* ptr) const
 
 bool String::operator<(const String& str) const
 {
-    return Data < str.Data;
+  return Data < str.Data;
 }
 
 bool String::operator<(const AnsiPtr& ptr) const
 {
-    String str(ptr);
-    return Data < str.Data;
+  String str(ptr);
+  return Data < str.Data;
 }
 
 bool String::operator<(const Utf8Ptr& ptr) const
 {
-    String str(ptr);
-    return Data < str.Data;
+  String str(ptr);
+  return Data < str.Data;
 }
 
 bool String::operator<(const w16string& str) const
 {
-    String utf8(str);
-    return Data < utf8.Data;
+  String utf8(str);
+  return Data < utf8.Data;
 }
 
 bool String::operator<(const w16_type* ptr) const
 {
-    String utf8(ptr);
-    return Data < utf8.Data;
+  String utf8(ptr);
+  return Data < utf8.Data;
 }
 
 bool String::operator<(const w32string& str) const
 {
-    String utf8(str);
-    return Data < utf8.Data;
+  String utf8(str);
+  return Data < utf8.Data;
 }
 
 bool String::operator<(const w32_type * ptr) const
 {
-    String utf8(ptr);
-    return Data < utf8.Data;
+  String utf8(ptr);
+  return Data < utf8.Data;
 }
 
 bool String::operator<(char ch) const
 {
-    String utf8(ch, 1);
-    return Data < utf8.Data;
+  String utf8(ch, 1);
+  return Data < utf8.Data;
 }
 
 bool String::operator<(const Char& ch) const
 {
-    String utf8(ch, 1);
-    return Data < utf8.Data;
+  String utf8(ch, 1);
+  return Data < utf8.Data;
 }
 
 bool String::operator<(const char* ptr) const
 {
-    return Data < ptr;
+  return Data < ptr;
 }
 
 bool String::operator<(const std::string& str) const
 {
-    return Data < str;
+  return Data < str;
 }
 
 bool String::Valid(const std::string& str)
@@ -1583,10 +1481,10 @@ const char* String::Verify(const char* ptr)
 
 String operator+(const char* left, const String& str) 
 { 
-    return (String(left) + str); 
+  return String(left) + str; 
 }
 
 String operator+(const std::string & left, const String& str)
 {
-    return (String(left) + str);
+  return String(left) + str;
 }

@@ -1,8 +1,8 @@
 # utf8 library
 
-Это библиотека содержит в себе набор классов по работе со строками в формате utf8, а также функции конвертации строк в форматах utf8, ANSI, utf16, utf32.
+This library contains a set of classes for working with strings in utf8 format, as well as functions for converting strings in utf8, ANSI, utf16, utf32 formats.
 
-Наиболее востребованными оперециями конвертирования форматов являются конвертация из кодировки ANSI под Windows, a также из строки Unicode (под Windows это строка в кодировке utf16; для Posix систем это utf32). Данная библиотека позволяет решить эти задачи вызовом одной из реализованных в ней функции:
+The most commonly used format conversion operations are converting from ANSI encoding (on Windows), as well as from a Unicode string (on Windows it is a utf-16 encoded string; on Posix systems it is utf-32). This library allows to solve these problems by calling one of the conversion functions:
 ```
 const wchar_t* unicode_str = L"тЕкст1 王明 Mötley Crüe";
 
@@ -21,7 +21,7 @@ assert(wcscmp(unicode_str, unicode_str2.c_str()) == 0);
 #endif
 ```
 
-В utf8 строке символ может кодироваться одним, двумя или тремя байтами (https://en.wikipedia.org/wiki/UTF-8). Таким образом в общем случае длина строки в символах и длина строки в байтах это разные величины. Поэтому STL классы такие как std::string не подходят для ряда операций (например, для поиска и извлечения подстрок). Данная библиотека предлагает для работы с utf8 строками класс utf8::String. Этот класс во многом похож на std::string, но правильным образом реализует все операции по работе со строкой в utf8
+In a utf-8 string, a character can be encoded with one, two, or three bytes (https://en.wikipedia.org/wiki/UTF-8). Thus, in general, the length of a string in characters and the length of a string in bytes are different values. Therefore, STL classes such as std::string are not suitable for a number of operations (for example, searching and extracting substrings). This library offers the utf8::String class for working with utf8 strings. This class is similar to std::string in many ways, but correctly implements all operations on working with a string in utf8
 
 ```
 utf8::String u8str(u8"Абв");

@@ -2,6 +2,7 @@ file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp")
 file(GLOB_RECURSE HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.h")
 add_library(utf8 STATIC ${SOURCES} ${HEADERS}) 
 
-target_compile_definitions(utf8 PUBLIC _CRT_SECURE_NO_WARNINGS)
+target_include_directories(utf8 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}) 
+target_compile_definitions(utf8 PRIVATE _CRT_SECURE_NO_WARNINGS)
  
 

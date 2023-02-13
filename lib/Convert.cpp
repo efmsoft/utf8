@@ -40,6 +40,7 @@ using namespace utf8;
 #endif
 
 w16_type* w16_strncpyz(w16_type* dest, const w16_type* src, size_t num) { return xstrncpyz(dest, src, num); }
+w32_type* w32_strncpyz(w32_type* dest, const w32_type* src, size_t num) { return xstrncpyz(dest, src, num); }
 
 #ifndef _WIN32
 template<typename tstring, typename tchar>
@@ -484,8 +485,8 @@ std::string utf8::Utf8ToLower(const char* ptr)
 
   CFStringLowercase(h, NULL);
 
-  CFIndex sizeChar = CFStringGetLength(h)+1;
-  char * strChar = (char *) malloc(sizeChar);
+  CFIndex sizeChar = 3 * CFStringGetLength(h) + 1;
+  char* strChar = (char*)malloc(sizeChar);
   bool success = CFStringGetCString(h, strChar, sizeChar, kCFStringEncodingUTF8);
   CFRelease(h);
 
@@ -493,9 +494,8 @@ std::string utf8::Utf8ToLower(const char* ptr)
   delete strChar;
 
   if (success)
-  {
     return result;
-  }
+  
   return std::string();
 }
 
@@ -517,8 +517,8 @@ std::string utf8::Utf8ToUpper(const char* ptr)
 
   CFStringUppercase(h, NULL);
 
-  CFIndex sizeChar = CFStringGetLength(h)+1;
-  char * strChar = (char *) malloc(sizeChar);
+  CFIndex sizeChar = 3 * CFStringGetLength(h) + 1;
+  char* strChar = (char*)malloc(sizeChar);
   bool success = CFStringGetCString(h, strChar, sizeChar, kCFStringEncodingUTF8);
   CFRelease(h);
 
@@ -526,9 +526,8 @@ std::string utf8::Utf8ToUpper(const char* ptr)
   delete strChar;
 
   if (success)
-  {
     return result;
-  }
+
   return std::string();
 }
 #endif  

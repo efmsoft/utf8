@@ -1,2 +1,6 @@
 .vs/
 out/
+_deps/
+CMakeFiles/
+*.a
+.vscode/

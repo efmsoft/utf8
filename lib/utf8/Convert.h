@@ -56,7 +56,7 @@ w32_type* w32_strncpyz(w32_type* dest, const w32_type* src, size_t num);
     inline w16_type* w16_strncpyz(char16_t* dest, const char16_t* src, size_t num) 
     {  return w16_strncpyz((w16_type*)dest, (const w16_type*)src, num); }
 #else
-    inline w32_type* w32_strncpyz(w32_type* dest, const w32_type* src, size_t num)
+    inline w32_type* w32_strncpyz(char32_t* dest, const char32_t* src, size_t num)
     { return w32_strncpyz((w32_type*)dest, (const w32_type*)src, num); }
 #endif
 

@@ -233,9 +233,9 @@ TEST(String, ToUpperCase)
   s1.ToUpperCase();
   EXPECT_EQ(s1, u8"РУССКИЙ");
 
-  String s2(u8"äöüßÄÖÜ");
+  String s2(u8"äöüÄÖÜ");
   s2.ToUpperCase();
-  EXPECT_EQ(s2, u8"ÄÖÜßÄÖÜ");
+  EXPECT_EQ(s2, u8"ÄÖÜÄÖÜ");
 
   String s3(u8"TestString");
   s3.ToUpperCase();

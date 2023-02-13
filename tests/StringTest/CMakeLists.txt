@@ -5,6 +5,11 @@ target_link_libraries(StringTest LINK_PUBLIC utf8 gtest_main)
 
 if(WIN32)
   target_link_libraries(StringTest LINK_PUBLIC icu.lib) 
+elseif(APPLE)
+  target_link_libraries(StringTest LINK_PUBLIC
+    iconv
+    "-framework Cocoa"
+  ) 
 endif()
 
 set_target_properties(StringTest PROPERTIES FOLDER "Tests")

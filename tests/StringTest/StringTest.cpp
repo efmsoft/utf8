@@ -466,15 +466,15 @@ TEST(String, Char)
 
   {
 	  String str(u8"Test\\5|4:7<<z69/ae\"z|of*Lkd?é!!?*L:k//><> \\\" ");
-	  str.Remove(u8'<');
-	  str.Remove(u8'>');
-	  str.Remove(u8':');
-	  str.Remove(u8'"');
-	  str.Remove(u8'/');
-	  str.Remove(u8'\\');
-	  str.Remove(u8'|');
-	  str.Remove(u8'?');
-	  str.Remove(u8'*');
+	  str.Remove('<');
+	  str.Remove('>');
+	  str.Remove(':');
+	  str.Remove('"');
+	  str.Remove('/');
+	  str.Remove('\\');
+	  str.Remove('|');
+	  str.Remove('?');
+	  str.Remove('*');
 
 	  EXPECT_EQ(str, u8"Test547z69aezofLkdé!!Lk  ");
   }

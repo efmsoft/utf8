@@ -8,5 +8,5 @@ using namespace utf8;
 TEST(akUtf8String, Split)
 {
   String lutStr(SplitData);
-  StringArray splittedLutStr = lutStr.Split({ u8' ' });
+  StringArray splittedLutStr = lutStr.Split({' '});
 }

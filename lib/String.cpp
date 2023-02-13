@@ -131,7 +131,7 @@ std::string String::ToNativeString() const
 {
 #ifdef _WIN32
   return ToAnsi();
-#else //#if defined(__APPLE__)
+#else
   return Data;
 #endif
 }

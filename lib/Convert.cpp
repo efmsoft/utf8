@@ -33,14 +33,14 @@ using namespace utf8;
   w32_type* w32_strcpy(w32_type* dest, const w32_type* src) { return xstrcpy(dest, src); }
   w32_type* w32_strncpy(w32_type* dest, const w32_type* src, size_t num) { return xstrncpy(dest, src, num); }
   w32_type* w32_strncpyz(w32_type* dest, const w32_type* src, size_t num) { return xstrncpyz(dest, src, num); }
-#else //#if defined(__APPLE__)
+#else
   size_t w16_strlen(const w16_type* p) { return xstrlen(p); }
   w16_type* w16_strcpy(w16_type* dest, const w16_type* src) { return xstrcpy(dest, src); }
   w16_type* w16_strncpy(w16_type* dest, const w16_type* src, size_t num) { return xstrncpy(dest, src, num); }
+  w32_type* w32_strncpyz(w32_type* dest, const w32_type* src, size_t num) { return xstrncpyz(dest, src, num); }
 #endif
 
 w16_type* w16_strncpyz(w16_type* dest, const w16_type* src, size_t num) { return xstrncpyz(dest, src, num); }
-w32_type* w32_strncpyz(w32_type* dest, const w32_type* src, size_t num) { return xstrncpyz(dest, src, num); }
 
 #ifndef _WIN32
 template<typename tstring, typename tchar>

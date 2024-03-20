@@ -5,4 +5,7 @@ add_library(utf8 STATIC ${SOURCES} ${HEADERS})
 target_include_directories(utf8 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}) 
 target_compile_definitions(utf8 PRIVATE _CRT_SECURE_NO_WARNINGS)
  
+set_target_properties(utf8 PROPERTIES
+  POSITION_INDEPENDENT_CODE ON
+)
 

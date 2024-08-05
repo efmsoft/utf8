@@ -4,8 +4,8 @@ This library contains a set of classes for working with strings in **UTF-8** for
 
 # Table of Contents
 1. [Conversion from/to UTF8](#conversion-from-to-utf8)
-2. [utf8::String class](#utf8--string-class)
-3. [utf8::Char class](#utf8--char-class)
+2. [utf8::String class](#utf8-string-class)
+3. [utf8::Char class](#utf8-char-class)
 4. [Utf8Ptr and AnsiPtr Classes](#utf8ptr-and-ansiptr-classes)
 
 ## Conversion from/to UTF8

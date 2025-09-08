@@ -4,7 +4,7 @@ target_compile_definitions(StringTest PUBLIC _CRT_SECURE_NO_WARNINGS)
 target_link_libraries(StringTest LINK_PUBLIC utf8 gtest_main) 
 
 if(WIN32)
-  target_link_libraries(StringTest LINK_PUBLIC icu.lib) 
+  target_link_libraries(StringTest LINK_PUBLIC icuuc.lib icuin.lib) 
 elseif(APPLE)
   target_link_libraries(StringTest LINK_PUBLIC
     iconv

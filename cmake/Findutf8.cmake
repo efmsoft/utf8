@@ -16,4 +16,5 @@ get_filename_component(UTF8_ROOT "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
 set(UTF8_INCLUDE_DIR ${UTF8_ROOT}/lib)
 set(UTF8_LIBRARIES utf8)
 
+set(UTF8_STATIC_WINDOWS_RUNTIME OFF CACHE BOOL "" FORCE)
 add_subdirectory(${UTF8_ROOT}/lib)

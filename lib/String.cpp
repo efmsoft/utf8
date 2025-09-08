@@ -10,8 +10,12 @@
 #include <utf8/Convert.h>
 #include <utf8/String.h>
 
-#ifdef _WIN32
-  #include <icu.h>
+#ifdef UTF8_STATIC_WINDOWS_RUNTIME
+  #define SUPPRESS_LEGACY_ICU_HEADER_WARNINGS
+  #include <icucommon.h>
+  #include <icui18n.h>
+#else
+  #include <unicode/uchar.h>
 #endif
 
 using namespace utf8;
